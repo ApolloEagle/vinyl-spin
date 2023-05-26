@@ -7,7 +7,7 @@ const componentToHex = (color: number) => {
 
 const extractBackgroundColor = (
   file: File,
-  canvasRef: RefObject<HTMLCanvasElement> | undefined,
+  canvasRef: RefObject<HTMLCanvasElement> | null,
   setBackgroundColor: (backgroundColor: string) => void
 ) => {
   const reader = new FileReader();

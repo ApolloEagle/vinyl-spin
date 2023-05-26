@@ -1,9 +1,11 @@
 import { FC, useContext } from "react";
 import FileUpload from "./file-upload";
+import Record from "./record";
 import { VinylContext } from "../App";
 
 const VinylSpinner: FC = () => {
-  const { backgroundColor, audio, image, canvasRef } = useContext(VinylContext);
+  const { backgroundColor, audio, image, canvasRef, record } =
+    useContext(VinylContext);
 
   return (
     <div
@@ -19,11 +21,14 @@ const VinylSpinner: FC = () => {
             alt="vinyl"
           />
           {image ? (
-            <img
-              className={`absolute inset-0 m-auto rounded-full object-cover w-[calc(100vh/3)] max-w-[calc(100vw/3)] aspect-square animate-spin`}
-              src={URL.createObjectURL(image)}
-              alt="logo"
-            />
+            <>
+              {!record && <Record />}
+              <img
+                className={`absolute inset-0 m-auto rounded-full object-cover w-[calc(100vh/3)] max-w-[calc(100vw/3)] aspect-square animate-spin`}
+                src={URL.createObjectURL(image)}
+                alt="logo"
+              />
+            </>
           ) : (
             <FileUpload type="image" />
           )}

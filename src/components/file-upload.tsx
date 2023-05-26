@@ -52,12 +52,16 @@ const FileUpload: FC<{ type: string }> = ({ type }) => {
     <div
       className={`drop-area fixed ${
         dragging ? "dragging" : ""
-      } w-[calc(100vh/3)] max-w-[calc(100vw/3)] aspect-square flex justify-center items-center`}
+      } w-[calc(100vh/3)] max-w-[calc(100vw/3)] aspect-square flex justify-center items-center ${
+        type === "audio"
+          ? "border rounded-2xl border-slate-300 hover:bg-slate-50"
+          : "border-0"
+      }`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      <p>{prompt}</p>
+      <p className="text-slate-400">{prompt}</p>
     </div>
   );
 };
