@@ -4,8 +4,15 @@ import { extractDuration, extractBackgroundColor } from "../helpers";
 
 const FileUpload: FC<{ type: string }> = ({ type }) => {
   const [dragging, setDragging] = useState(false);
-  const { setImage, setAudio, setDuration, setBackgroundColor, canvasRef } =
-    useContext(VinylContext);
+  const {
+    setImage,
+    setAudio,
+    setDuration,
+    setBackgroundColor,
+    canvasRef,
+    prompt,
+    setPrompt,
+  } = useContext(VinylContext);
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -24,11 +31,20 @@ const FileUpload: FC<{ type: string }> = ({ type }) => {
     const file = event.dataTransfer.files[0];
 
     if (type === "image") {
-      setImage(file);
-      extractBackgroundColor(file, canvasRef, setBackgroundColor);
+      if (file.type.includes("image")) {
+        setImage(file);
+        extractBackgroundColor(file, canvasRef, setBackgroundColor);
+      } else {
+        setPrompt("Images only");
+      }
     } else {
-      setAudio(file);
-      extractDuration(file, setDuration);
+      if (file.type.includes("audio")) {
+        setAudio(file);
+        extractDuration(file, setDuration);
+        setPrompt("Drag and drop an image");
+      } else {
+        setPrompt("Please drop audio only");
+      }
     }
   };
 
@@ -41,11 +57,7 @@ const FileUpload: FC<{ type: string }> = ({ type }) => {
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      <p>
-        {type === "audio"
-          ? "Drag and drop audio here"
-          : "Drag and drop image here"}
-      </p>
+      <p>{prompt}</p>
     </div>
   );
 };

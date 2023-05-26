@@ -11,6 +11,8 @@ interface VinylContextProps {
   backgroundColor: string;
   setBackgroundColor: (backgroundColor: string) => void;
   canvasRef: RefObject<HTMLCanvasElement> | undefined;
+  prompt: string;
+  setPrompt: (prompt: string) => void;
 }
 
 const VinylContext = createContext<VinylContextProps>({
@@ -23,12 +25,15 @@ const VinylContext = createContext<VinylContextProps>({
   backgroundColor: "#ffffff",
   setBackgroundColor: () => null,
   canvasRef: undefined,
+  prompt: "Drag and drop an audo file",
+  setPrompt: (prompt: string) => null,
 });
 
 const App = () => {
   const [image, setImage] = useState<File | null>(null);
   const [audio, setAudio] = useState<File | null>(null);
   const [duration, setDuration] = useState<number | null>(null);
+  const [prompt, setPrompt] = useState<string>("Drag and drop an audo file");
   const [backgroundColor, setBackgroundColor] = useState<string>("#ffffff");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -51,6 +56,8 @@ const App = () => {
         backgroundColor,
         setBackgroundColor,
         canvasRef,
+        prompt,
+        setPrompt,
       }}
     >
       <VinylSpinner />
