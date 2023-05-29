@@ -3,11 +3,11 @@ import { VinylContext } from "../App";
 import { recordVideo } from "../helpers";
 
 const Record: FC = () => {
-  const { setRecord, duration, canvasRef, audio } = useContext(VinylContext);
+  const { setRecord, duration } = useContext(VinylContext);
 
   const handleRecording = () => {
     setRecord(true);
-    recordVideo(duration, canvasRef, audio);
+    recordVideo(duration);
   };
 
   return (
