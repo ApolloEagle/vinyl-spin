@@ -27,7 +27,7 @@ const VinylContext = createContext<VinylContextProps>({
   backgroundColor: "#ffffff",
   setBackgroundColor: () => null,
   canvasRef: null,
-  prompt: "Drag and drop an audo file",
+  prompt: "Upload audio file",
   setPrompt: (prompt: string) => null,
   record: false,
   setRecord: (record: boolean) => null,
@@ -38,7 +38,7 @@ const App = () => {
   const [audio, setAudio] = useState<File | null>(null);
   const [duration, setDuration] = useState<number>(0);
   const [record, setRecord] = useState<boolean>(false);
-  const [prompt, setPrompt] = useState<string>("Drag and drop an audo file");
+  const [prompt, setPrompt] = useState<string>("Upload audio file");
   const [backgroundColor, setBackgroundColor] = useState<string>("#ffffff");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 

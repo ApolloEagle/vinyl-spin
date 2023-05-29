@@ -1,4 +1,11 @@
-import { FC, DragEvent, useState, useContext } from "react";
+import {
+  FC,
+  DragEvent,
+  useState,
+  useContext,
+  useRef,
+  ChangeEvent,
+} from "react";
 import { VinylContext } from "../App";
 import { extractDuration, extractBackgroundColor } from "../helpers";
 
@@ -13,6 +20,7 @@ const FileUpload: FC<{ type: string }> = ({ type }) => {
     prompt,
     setPrompt,
   } = useContext(VinylContext);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -48,6 +56,33 @@ const FileUpload: FC<{ type: string }> = ({ type }) => {
     }
   };
 
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event?.target?.files?.[0];
+    console.log(file);
+    if (type === "image") {
+      if (file?.type.includes("image")) {
+        setImage(file);
+        extractBackgroundColor(file, canvasRef, setBackgroundColor);
+      } else {
+        setPrompt("Images only");
+      }
+    } else {
+      if (file?.type.includes("audio")) {
+        console.log("BOOM");
+        setAudio(file);
+        extractDuration(file, setDuration);
+        setPrompt("Drag and drop an image");
+      } else {
+        setPrompt("Please drop audio only");
+      }
+    }
+  };
+
+  const handleClick = () => {
+    console.log(fileInputRef);
+    fileInputRef?.current?.click();
+  };
+
   return (
     <div
       className={`drop-area fixed ${
@@ -61,7 +96,15 @@ const FileUpload: FC<{ type: string }> = ({ type }) => {
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      <p className="text-slate-400">{prompt}</p>
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={(e) => handleFileChange(e)}
+        style={{ display: "none" }}
+      />
+      <button className="w-full h-full" onClick={handleClick}>
+        {prompt}
+      </button>
     </div>
   );
 };
